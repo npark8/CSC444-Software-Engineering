@@ -1,0 +1,36 @@
+<div class="panel panel-default">
+      <div class="panel-heading">
+          <a data-toggle="collapse" href="#item_wish"><h4 class="text-uppercase">wish items<h4></a>
+      </div>
+      <div id="item_wish" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <div class="table-responsive">
+        <% if @wish_items.length > 0 %>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Item name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @wish_items.each do |item| %>
+            <tr>
+              <td><%= link_to item.name, item_path(item.item_id), class: "btn-link" %></td>
+              <td><%= item.descr %></td>
+              <td><%= item.status %></td>
+              <td><%= button_to 'Delete', user_wish_list_path(item.user_id, item.item_id), method: :delete,
+                      data: { confirm: 'Are you sure?' }, class: "cta-alt cta-background" %></td>  <!-- item will be deleted from the list -->
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%else%>
+          <p>You don't have any wish lists</p>
+        <%end%>
+        </div>
+      </div>
+    </div>
+  </div>

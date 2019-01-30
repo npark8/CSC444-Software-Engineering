@@ -1,0 +1,44 @@
+ <div class="panel panel-default">
+      <div class="panel-heading">
+          <a data-toggle="collapse" href="#item_own"><h4 class="text-uppercase">Your items<h4></a>
+      </div>
+      <div id="item_own" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <div class="table-responsive">
+        <% if @user_items.length > 0 %>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Item name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th colspan="2">Manage</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @user_items.each do |item| %>
+            <tr>
+              <td><%= link_to item.name, item_path(item), class: "btn-link" %></td>
+              <td><%= item.descr %></td>
+              <td><%= item.status %></td>
+              <td><%= item.category %></td>
+              <td>
+                <div style="margin-left:2em"> 
+                <%= link_to 'edit', edit_user_item_path(@user.id, item.id), class: "cta-alt cta-background",form:{style:"display:inline-block;margin-right:1em"} %> 
+                <%= button_to 'delete', user_item_delete_item_path(@user.id, item.id), method: :put,
+                    data: { confirm: 'Are you sure?'}, class: "cta-alt cta-background",form:{style:"display:inline-block;margin-right:1em"} %>
+                  </div>
+              </td> 
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%else%>
+          <p>You don't own any items</p>
+        <%end%>
+        </div>
+        <div><%= link_to 'Add a new item', new_user_item_path(@user.id), class: "cta-alt cta-background"%></div>
+      </div>
+    </div>
+</div>

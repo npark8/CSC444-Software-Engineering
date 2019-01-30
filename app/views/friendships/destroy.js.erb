@@ -1,0 +1,14 @@
+$("#search_user_list").html("<%= j render  "users/search_user" %>");
+$("#friend_request_list").html("<%= j render  "friendships/friend_requests" %>");
+$("#friend_list").html("<%= j render  "friendships/friends" %>");
+$("#friend_block_list").html("<%= j render  "friendships/blocks" %>");
+if (<%=@decision=="unfriend"%>){
+	alert("You have removed friend with <%= @friend_removee.fname%> <%=@friend_removee.lname %>.");
+}
+else if (<%=@decision=="block"%>){
+	alert("You have blocked <%= @friend_removee.fname%> <%=@friend_removee.lname %>, now you two cannot see each other and you may change this decision later by managing the block list.");
+}
+else{
+	alert("You have unblocked <%= @friend_removee.fname%> <%=@friend_removee.lname %>, good for you two!")
+}
+

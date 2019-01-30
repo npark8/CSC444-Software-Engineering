@@ -1,0 +1,30 @@
+
+<div class="container">
+	<div class="row text-center margin-bot-2">
+		<h1 style="color:#337ab7;font-weight:bold">A CUP OF SUGAR</h1>
+		<h3 style="font-style:italic">Sweet.Simple.Sharing.</h3>
+	</div>
+    <div class="row">
+    <% @items.each do |item| %>
+    <% if item.images.any? %>
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <div class="icon">
+                <div class="thumbnail" >
+                    <%= link_to image_tag(item.images.first), item_path(item.id)%>
+                </div>
+                <div class="text-center">
+                    <h4><%= item.name %></h4>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <% end %>
+    </div>
+	<div class="row text-center margin-bot-2">
+		<div class="col-md-4"></div>
+		<div class="col-xs-12 col-md-4">
+		<%= button_to 'Look for Items!', items_path(), method: :get, class: "cta-alt cta-background",style:"width:100%;font-size:20px" %>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+</div>

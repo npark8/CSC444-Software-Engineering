@@ -1,0 +1,8 @@
+<div>
+	<p>You have a new friend request from <%=@requirer.fname.capitalize%> <%= @requirer.lname.capitalize%>.<p>
+</div>
+
+<div>	
+	Go to Bolend to check:</p>
+	<%= button_to 'Bolend', users_url, form: {style:'display:inline-block;'},:method => "get" %>
+</div>

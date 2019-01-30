@@ -1,0 +1,32 @@
+
+<div class="container">
+	<div class="page-header"><h1><%="Reviews for #{@user.fname} #{@user.lname}"%></h1></div>
+	<p class="img-responsive rating-display" data-score="<%= @user.rating.to_i %>"></p>
+	<div class="panel-group">
+    <div class="panel panel-default">
+          <div class="panel-body">
+            <%= render partial: 'review_borrowers/reviews_from_lender' %>
+          </div>
+          <div class="panel-body">
+            <%= render partial: 'review_borrowers/reviews_from_lender' %>
+          </div>
+        </div>
+      </div>
+    <%#= render partial: 'reviews_from_lender' %>
+  	<%#= render partial: 'reviews_from_borrower' %>
+	<br>
+	<p><%= button_to 'Back', user_path(@user),class:"cta",method: :get,title:"Back to profile"%></p>
+  </div>
+
+</div>
+
+<script>
+  $('.rating-display').raty({
+      readOnly: true,
+      score: function() {
+        return $(this).attr('data-score');
+      },
+      //path: '/assets/',
+      size: 24
+    });   
+</script>

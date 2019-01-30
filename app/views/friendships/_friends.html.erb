@@ -1,0 +1,42 @@
+<% friends = @user.friends %>
+<div style="font-size:21px" ><i class="fas fa-user-friends"></i> Friend List <%="(#{friends.length})"if friends.length>0%></div>
+<% if friends.empty?%><div>You don't have any friends yet! Please start by searching for users through the search bar above.</div><% end %>
+<% for friend in friends%>
+	<div >
+		<!--desktop view -->
+		<%= link_to "#{friend.fname.capitalize} #{friend.lname.capitalize}", user_path(friend) %>
+		<%= button_to 'Message', conversations_path(sender_id: @user.id, recipient_id: friend.id), form: {style:'display:inline-block;'}, class:"cta hidden-xs hidden-sm hidden-md ",method: :post %>
+		<%= button_to conversations_path(sender_id: @user.id, recipient_id: friend.id), form: {style:'display:inline-block;'}, method: :post,class:'cta hidden-lg',title:'Send Message' do %>
+		<i class="fas fa-comment"></i>
+		<% end %>
+		<%= form_tag user_friendship_path(@user,id:1,:format => "js"), method: :delete,style:'display:inline-block;',data: { confirm: "Are you sure to unfriend with #{friend.fname} #{friend.lname}?" },class:"hidden-md hidden-sm hidden-xs",remote: true,authenticity_token: true do %>
+				  <%= hidden_field_tag :friend_remover, @user.id%>
+				  <%= hidden_field_tag :friend_removee, friend.id %>
+				  <%= hidden_field_tag :decision, "unfriend" %>
+				  <%= button_tag 'Remove',class:'cta' %>
+				<% end %>
+				<%= form_tag user_friendship_path(@user,id:1,:format => "js"), method: :delete,style:'display:inline-block;',data: { confirm: "Are you sure to block #{friend.fname} #{friend.lname}? This action will also do unfriending." },class:"hidden-md hidden-sm hidden-xs",remote: true,authenticity_token: true do %>
+				  <%= hidden_field_tag :friend_remover, @user.id%>
+				  <%= hidden_field_tag :friend_removee, friend.id %>
+				  <%= hidden_field_tag :blockee_id, friend.id %>
+				  <%= hidden_field_tag :decision, "block" %>
+				  <%= button_tag 'Block',class:'cta' %>
+				<% end %>
+				<!--mobile view -->
+				<%= form_tag user_friendship_path(@user,id:1,:format => "js"), method: :delete,style:'display:inline-block;',data: { confirm: "Are you sure to unfriend with #{friend.fname} #{friend.lname}?" },class:"hidden-lg",remote: true,authenticity_token: true do %>
+				  <%= hidden_field_tag :friend_remover, @user.id%>
+				  <%= hidden_field_tag :friend_removee, friend.id %>
+				  <%= hidden_field_tag :decision, "unfriend" %>
+				  <%= button_tag '<i class="fas fa-user-times"></i>'.html_safe,class:'cta',title:'Remove Friend' %>
+				<% end %>
+				<%= form_tag user_friendship_path(@user,id:1,:format => "js"), method: :delete,style:'display:inline-block;',data: { confirm: "Are you sure to block #{friend.fname} #{friend.lname}? This action will also do unfriending." },class:"hidden-lg",remote: true,authenticity_token: true do %>
+				  <%= hidden_field_tag :friend_remover, @user.id%>
+				  <%= hidden_field_tag :friend_removee, friend.id %>
+				  <%= hidden_field_tag :blockee_id, friend.id %>
+				  <%= hidden_field_tag :decision, "block" %>
+				  <%= button_tag '<i class="fas fa-user-slash"></i>'.html_safe,class:'cta',title:'Block Friend' %>
+				<% end %>
+	</div>
+	<hr class="hr-class"style="border-top: 1px solid #7A7E81;">
+<%end%>
+<br/>

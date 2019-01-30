@@ -1,0 +1,59 @@
+<div class="container">
+	<%= form_for :user, url: users_path do |f| %>
+    	<div class="form-group row">
+			<div class="col-lg-4 col-md-3 col-sm-2 col-xs-2"></div>
+      		<div class="col-lg-4 col-md-6 col-sm-8 col-xs-8 login-border-style margin-bot-5 shadow" style="background-color:white">
+  			 	<%= link_to '', root_path, class:"close",title:"Cancel"%>
+  			  	<br>
+				<p class="text-center margin-bot-1 margin-top-1 font-18"> Sign up with <%= link_to "Facebook","/auth/facebook"%> </p>
+				<div class=" unified_signup__divider">
+					<div class="line"></div>
+					<div class="text font-18">or</div>
+					<div class="line"></div>
+				</div>
+				<% email_error = @user.errors.full_messages_for(:email)%>
+				<% password_error = @user.errors.full_messages_for(:password)%>
+				<% if flash[:success_msg] %>
+	   	 			<div class="alert alert-success"><%= flash[:success_msg] %></div>
+				<% elsif flash[:failure_msg]%>
+					<div class="alert alert-danger">
+						<% email_error.each do |error| %>
+							<p class="text-center"><%= error %></p>
+						<% end %>
+							<% password_error.each do |error| %>
+							<p class="text-center"><%= error %></p>
+						<% end %>
+					</div>
+				<% end %>
+				
+		
+  				<%= f.label :fname,"First Name" %>
+  				<%= f.text_field :fname, :placeholder => "John",class: 'form-control margin-bot-1' %>
+
+   				<%= f.label :lname,"Last Name" %>
+ 				<%= f.text_field :lname, :placeholder => "Smith",class: 'form-control margin-bot-1' %>
+
+  				<%= f.label :email, class:"#{'error-text' if email_error.any?}" %>
+  				<%= f.email_field :email, :placeholder => "johnsmith55@gmail.com",class: "form-control margin-bot-1 #{'error-border'if email_error.any?}" %>
+
+  				<%= f.label :password, class:"#{'error-text' if password_error.any?}" %>
+  				<%= f.password_field :password,class: "form-control margin-bot-1 #{'error-border' if password_error.any?}" %>
+
+  				<%= f.label :password_confirmation, "Confirmation", class:"#{'error-text' if password_error.any?}" %>
+  				<%= f.password_field :password_confirmation,class: "form-control margin-bot-1 #{'error-border' if password_error.any?}" %>
+
+   				<%= f.label :phonenum, "Phone Number" %>
+  				<%= f.text_field :phonenum, :placeholder => "416-754-7275",class: 'form-control margin-bot-1' %>
+
+  				<%= f.label :address %>
+  				<%= f.text_field :address, :placeholder => "171 Silver Springs Blvd",class: 'form-control margin-bot-1' %>
+
+   				<%= f.submit "Create my account",class: "btn btn-info margin-top-1", style:"width:100%;" %>
+				<hr class="hr-color"/>
+				<div class="text-center font-14 hidden">By signing up, you agree to our <%= link_to 'Terms of Service', page_path('tos'), class:"font-14" %></div>
+				<div class="text-center font-14 margin-bot-2">Already have an account? <%= link_to "Log in", login_url, class:"font-14" %></div>
+      	  	</div>
+      		<div class="col-lg-4 col-md-3 col-sm-2 col-xs-2"></div>
+   		</div>
+ 	<% end %>
+</div>

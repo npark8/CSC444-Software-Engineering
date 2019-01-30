@@ -1,0 +1,17 @@
+
+<% if not @users.present? %>
+	<% if params[:name].present? and @users.blank?%>
+		<div class="sticky-note">
+			<div style="font-size:21px" class="margin-bot-1"><i class="fas fa-search"></i> Search Result: </div> 
+			We couldn't find any user name for 
+			<span>	<%=params[:name] %> </span>
+		</div>
+	<% end %>
+<% else %>
+	<div id="user_list" class="sticky-note">
+		<%= render "friendships/user_friendships" , collection: @users, name: params[:name]%>
+	</div>
+<% end %>
+
+
+

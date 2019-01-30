@@ -1,0 +1,18 @@
+<div class="container">
+  <h1>Confirm Item Borrowing Details</h1>
+  <div>
+    <% curr_due_date = OnHoldItem.find_by_id(params[:on_hold_item_id]).due_date.strftime("%Y-%m-%d")%>
+    <%= form_with(model: [@user, @borrowed_item], local: true) do |form| %>
+      <%= hidden_field_tag "borrowed_item[user_id]", "#{params[:user_id]}" %>
+      <%= hidden_field_tag "borrowed_item[item_id]", "#{OnHoldItem.find_by_id(params[:on_hold_item_id]).item_id}" %>
+      <div class="form-group">
+        <%= form.label :specify_Return_Date %><br>
+        <%= form.date_field :due_date, :value => curr_due_date, min: curr_due_date, class: "form-control" %>
+
+      </div>
+      <p>
+        <%= form.submit "Confirm Borrower Has Picked Up Item", class: "cta-alt cta-background"%>
+      </p>
+    <% end %>
+  </div>
+<div>

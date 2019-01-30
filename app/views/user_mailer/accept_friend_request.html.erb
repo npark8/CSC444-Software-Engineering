@@ -1,0 +1,8 @@
+<div>
+	<p>Congratulations! You have become friends with <%=@requiree.fname.capitalize%> <%= @requiree.lname.capitalize%>!<p>
+</div>
+
+<div>	
+	Go to Bolend to check:
+	<%= button_to 'Bolend', users_url, form: {style:'display:inline-block;'},:method => "get" %>
+</div>

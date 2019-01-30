@@ -1,0 +1,5 @@
+<% if current_user2 %>
+	<% current_user2.attributes.each do |k, v| %>
+		<b><%= k %>:</b> <%= v %> <br>
+	<% end %>
+<% end %>

@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="page-header"><h1>Search items</h1></div>
+
+<%#
+  Filterrific adds the `form_for_filterrific` view helper:
+  * adds dom id 'filterrific_filter'
+  * applies javascript behaviors:
+      * AJAX form submission on change
+      * AJAX spinner while AJAX request is being processed
+  * sets form_for options like :url, :method and input name prefix
+%>
+<h2> Search items by: </h2>
+<%= form_for_filterrific @filterrific do |f| %>
+  <div class="form-group">
+    <label>Item name</label>
+    <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+    <%= f.text_field(
+      :search_query, placeholder: "Search..",
+      class: 'filterrific-periodically-observed form-control', id: "search_bar"
+    ) %>
+  </div>
+  <div class="form-group">
+    <label>Category</label>
+    <%= f.select(
+      :with_category,
+      @filterrific.select_options[:with_category],
+      { include_blank: '- Any -' }, class: "form-control"
+    ) %>
+  </div>
+  <div class="form-group">
+    <label>City</label>
+    <%= f.select(
+      :with_city,
+      @filterrific.select_options[:with_city],
+      { include_blank: '- Any -' }, class: "form-control"
+    ) %>
+  </div>
+  <div class="">
+    <div class="form-group">
+      <label>Sort table with: </label>
+      <%= f.select(:sorted_by, @filterrific.select_options[:sorted_by], {include_blank: "- Sort by - "} , class: 'form-control') %>
+    </div>
+    <div class="form-group">
+      <%= link_to(
+        'Reset filters',
+        reset_filterrific_url, class: "cta-alt", style: "float: right;"
+      ) %>
+    </div>
+</div>
+
+
+  <%# add an automated spinner to your form when the list is refreshed %>
+  <div style="text-align: center"><%= render_filterrific_spinner %></div>
+<% end %>
+<hr/>
+
+<%= render(
+  partial: 'items/list',
+  locals: { items: @items }
+) %>
+
+</div>
+
+<style>
+ input[type=text]#search_bar {
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+/* When the input field gets focus, change its width to 100% */
+input[type=text]#search_bar:focus {
+    width: 100%;
+}
+</style>

@@ -1,0 +1,27 @@
+<p style="font-size:22px">I'd like to receive email notifications on...</p><br />
+<div class="form-group">
+    <%= form_for([@user, @notification])  do |f| %>
+  <ul style="font-size:22px">
+        <li >
+            <%= f.label "Borrow / due date extension requests from others: ",style:"font-weight:normal;display:inline" %>
+            <%= f.check_box :i_req_by_others %> 
+    </li>
+    <br/>
+         <li >
+            <%= f.label "Approval for borrow / due date extension requests you sent: ",style:"font-weight:normal;display:inline" %> 
+            <%= f.check_box :i_req_approval_alert %> 
+         </li>
+     <br />
+        <li >
+            <%= f.label "Early due date alert for an item on hold: ",style:"font-weight:normal;display:inline" %> 
+            <%= f.check_box :i_due_alert %> 
+    </li>
+    <br />
+  </ul>  
+      <div style="margin-left:2em">    
+         <%= f.submit "Confirm", class: "cta cta-background",style:"margin-right:1em" %>      
+    <% end %>
+  <div class="font-18" style="display:inline-block">or</div>
+  <%= button_to 'Cancel', user_path(@user.id), class: "cta",form:{style:"margin-left:1em;display:inline-block"},method: :get %>
+</div>
+</div>

@@ -1,0 +1,53 @@
+<h1>Review the borrower</h1>
+
+
+<% if flash[:failure_msg]%>
+  <div class="alert alert-danger">
+    <% @review_borrower.errors.each do |error| %>
+      <p class="text-center"><%= error %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<div id="item_profile">
+  <p>Borrower: <%= @borrower.fname %> <%= @borrower.lname %></p> <!-- should go to user profile page -->
+	<p>Item: <%= @item.name %></p>
+	<%= render partial: 'items/item_profile' %>
+</div>
+
+<p>Note: please fill out this review form after receiving the item.</p>
+<div>
+  <%= form_with(model: [@user, @review_borrower], local: true) do |form| %>
+     <%= form.hidden_field(:user_id, :value => @user.id) %>
+     <%= form.hidden_field(:item_id , :value => @item.id) %>
+     <%= form.hidden_field(:borrower_id , :value => @borrower.id) %>
+    <div class="form-group">
+      <label>Rate borrower: </label>
+      <div class="rating-form-brw">
+      <%#= form.label 'Rate item/lender: ' %>
+      <%#= form.number_field :rating %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= form.label 'Leave comment: ' %><br>
+
+      <%= form.text_area :comment , class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= form.submit "Submit review" , class: "cta-alt cta-background"%>
+    </div>
+    <!-- add button to report user -->
+  <% end %>
+</div>
+
+<div>
+  <%= link_to "Cancel", user_items_path(@user.id) , class: "cta-alt" %>
+</div>
+
+<script>
+  $('.rating-form-brw').raty({
+      //path: '/assets/',
+      scoreName: 'review_borrower[rating]',
+      size: 24
+    });
+</script>

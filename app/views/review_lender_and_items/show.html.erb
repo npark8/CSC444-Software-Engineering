@@ -1,0 +1,22 @@
+<div id="item_profile">
+	<% owner = User.find(@item.user_id)%>
+	<p>Lender: <%= owner.fname %> <%= owner.lname %></p>
+	<p>Item: <%= @item.name %></p>
+	<%= render partial: 'items/item_profile' %>
+</div>
+<div id="review">
+	<p>raiting: <div class="img-responsive rating-display" data-score="<%= @review_lender.rating%>"></div></p>
+	<p>comment: <%= @review_lender.comment%></p>
+</div>
+<%= link_to '< Back to items', user_items_path(@user.id), class: "cta-alt"%>
+
+<script>
+  $('.rating-display').raty({
+      readOnly: true,
+      score: function() {
+        return $(this).attr('data-score');
+      },
+      //path: '/assets/',
+      size: 24
+    });
+</script>

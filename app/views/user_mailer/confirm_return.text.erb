@@ -1,0 +1,4 @@
+<%= @alert_to.fname %>
+
+The item <%= @item.name%> has been returned. Please keep this email as your record. Click the link below to view this transaction. 
+<%= link_to "Go to BoLend", user_items_url(user_id: @alert_to.id, auth: "login_required") %> 
