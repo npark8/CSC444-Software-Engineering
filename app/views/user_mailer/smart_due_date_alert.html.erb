@@ -1,4 +1,0 @@
-<%= @borrower.fname %>
-
-</p>The item <%= @item.name%> that you borrowed is due in <%= @days %> day(s). If you wish to return the item or to extend the due date, click the link below.</p>
-<%= link_to "Go to BoLend", user_items_url(user_id: @borrower.id, auth: "login_required") %> 
