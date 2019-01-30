@@ -1,0 +1,13 @@
+$("#search_user_list").html("<%= j render  "users/search_user" %>");
+$("#friend_request_list").html("<%= j render  "friendships/friend_requests" %>");
+$("#friend_list").html("<%= j render  "friendships/friends" %>");
+$("#block_list").html("<%= j render  "friendships/blocks" %>");
+if (<%=params[:decision]=="true"%>){ 
+	alert("You have become friend with <%= @requirer.fname%> <%=@requirer.lname %>");
+}
+else if (<%=params[:decision]=="block"%>){
+	alert("You have blocked <%= @requirer.fname%> <%=@requirer.lname %>, now you two cannot see each other and you may change this decision later by managing the block list.");
+}
+else{
+	alert("You have declined the friend request from <%= @requirer.fname%> <%=@requirer.lname %>");
+}

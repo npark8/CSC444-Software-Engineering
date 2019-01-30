@@ -1,0 +1,33 @@
+<div class="container">
+	<div class="flex justify-content-center">
+	<%if @user && @user.id != @owner_id%>
+		<%if !@user.wish_lists.find_by_item_id(@item.id) %>
+		<p>
+		<%= button_to 'Add to wish list', user_wish_lists_path(user_id: @user.id, item_id: @item.id), method: :post, class: "cta-alt cta-background" %></p>
+		<%else%>
+		<p>
+			<%= button_to 'Remove from wish list', user_wish_list_path(user_id: @user.id, item_id: @item.id), method: :delete, class: "cta-alt cta-background" %></p>
+		<%end%>
+
+		<% bi = @user.borrowed_items.find_by_item_id(@item.id)%>
+		<%if bi %>
+		<div><p><%= link_to 'Return this item', new_user_review_lender_and_item_path(user_id: @user.id, item_id: @item.id, lender_id: @owner_id), class: "cta-alt cta-background" %></p></div>
+		<div>
+			<%if bi.approved == nil%>
+			<p><%= link_to 'Send due date extension', edit_user_borrowed_item_path(user_id: @user.id, id: @item.id), class: "cta-alt cta-background"%></p>
+			<%end%>
+		</div>
+		<%end%>
+		<% ohi = @user.on_hold_items.find_by_item_id(@item.id)%>
+		<%if !ohi %>
+			<p><%= button_to 'Interested in this item?', new_user_on_hold_item_path(user_id: @user.id), :params => { item_id: @item.id, format: 'js' }, remote: true, method: :get, class: "cta-alt cta-background" %></p>
+			<div id="render_duration_form"></div>
+		<%elsif ohi && ohi.approved != "Approved"%>
+			<p><%= button_to 'Cancel borrow request', user_on_hold_item_path(user_id: @user.id, item_id: @item.id), method: :delete, class: "cta-alt cta-background" %></p>
+		<%end%>
+	<!-- not logged in - prompt user to login/sign up -->
+	<%elsif @user == nil %>
+		<p><div>Interested in this item? <%=link_to 'Please login/sign up', login_path, class: "cta-alt cta-background" %></div></p>
+	<%end%>
+	</div>
+</div>

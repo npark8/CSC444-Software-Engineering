@@ -1,0 +1,137 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-md-4 margin-bot-5">
+			<div class=" panel-group">
+		    <div class="panel panel-default">
+		    	<div class="panel-heading" style="font-size:21px"><%= @user.fname.capitalize %> <%= @user.lname.capitalize %></div>
+		          <div class="panel-body">
+				<div style="font-size:16px;color: #657786;"><i class="fa fa-calendar" aria-hidden="true"></i>
+					<%= @user.created_at.strftime("Joined %B %Y")%>
+				</div>
+			</div>
+			</div>
+			<br>
+			
+		    <div class="panel panel-default">
+		    	<div class="panel-heading">	        
+				<% if @user != @logged_in_user %>
+					<div style="font-size:21px" class="margin-bot-1"><i class="fas fa-eye"></i> Contact </div>
+				<% else %>
+					<div style="font-size:21px" class="margin-bot-1"><i class="fas fa-user-cog"></i> Management </div>
+				<% end %>
+				</div>
+				<div class="panel-body">
+				<% if @user.admin == true and @user == @logged_in_user%>
+					<p><%= link_to 'Edit admin user information >', edit_user_path(@user)%></p>
+					<p><%= link_to "Your Messages >", conversations_path %></p>
+					<p><%= link_to "Pending Reports >", report_user_path %></p>
+					<p><%= link_to "View All Items >", items_itemsindexx_url %></p>
+					<p><%= link_to "View All Users >", users_indexx_url %></p>
+				<% elsif @user == @logged_in_user %>
+					<p><%= link_to 'Manage items >', user_items_path(@user) %></p>
+					<p><%= link_to 'Manage notification preferences >', user_notification_path(@user.id, @notification.id)%></p>
+					<p><%= link_to 'Edit user information >', edit_user_path(@user)%></p>
+					<p><%= link_to "Your Messages >", conversations_path %></p>
+					<p><%= link_to "Reviews from others >", user_review_borrowers_path(@user.id) %></p>
+				<% else %>
+				 	<div>
+						<!--should be directed to user profile page later -->
+						<% user = @user %>
+						<% if not @logged_in_user.blocked_friends.include?(user)%>
+							<% if user != @logged_in_user%>
+								<p><%= button_to conversations_path(sender_id: current_user.id, recipient_id: user.id), method: :post,class:'cta ' do%>
+								 Send Message
+								<%end%></p>
+								
+								<% if @logged_in_user.friends.include?(user) %> 
+									
+									<p><%= button_tag '<i class="fas fa-user-friends"></i>'.html_safe, class:'cta cta-background',title:"Friends",disabled: true %></p>
+								<% elsif not @logged_in_user.pending_friends.include?(user)%> 
+									<p><%= button_to user_friendships_path(@logged_in_user,friend_requirer: @logged_in_user, friend_requiree:user,name: params[:name],:format => "js"), class:'cta',remote: true, authenticity_token: true do%>
+									 Add Friend 
+									<%end%></p>
+								<% else%> 
+									<p><%= button_tag '<i class="fas fa-check"></i> Request Sent'.html_safe, class:'cta cta-background ',disabled: true %></p>
+									
+								<% end %>
+								<p><%= button_to new_report_user_path, :params => { :reportee =>user.id} ,class:"cta ", method: :get do%>
+								Report User
+								<% end %></p>
+								
+								<!-- check if admin -->
+								<% if @logged_in_user.admin == true %>
+								<%= link_to 'Delete User', users_delete_path(:deleteid => user.id)%>
+								<% end %>
+							<% end %>
+						<% end %>
+					</div>
+				<% end %>
+				</div>
+			</div>
+			</div>
+			<br>
+		</div>
+		<!-- public view -->
+		<% if (@user.admin != true && (!@logged_in_user || @user != @logged_in_user)) %>
+			<div class="col-xs-12 col-md-8 margin-bot-2">
+				<div class="panel-group">
+					<div class="panel panel-default">
+				      <div class="panel-heading">
+				          <a data-toggle="collapse" href="#item_view"><h4 class="text-uppercase">Items belong to this user<h4></a>
+				      </div>
+				      <div id="item_view" class="panel-collapse collapse in">
+				      <div class="panel-body">
+						<%= render 'items/user_item_public_view' %>
+					</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+				      <div class="panel-heading">
+				          <a data-toggle="collapse" href="#review"><h4 class="text-uppercase">Reviews for this user<h4></a>
+				      </div>
+				      <div id="review" class="panel-collapse collapse in">
+				      <div class="panel-body">
+						<%= render partial: 'review_borrowers/reviews_from_lender' %>
+					</div>
+					  <div class="panel-body">
+  						<%= render partial: 'review_borrowers/reviews_from_borrower' %>				      
+				      </div>
+				  	</div>
+				  </div>
+			   </div>
+			</div>
+		<%end%>
+		<div class="col-xs-12 col-md-8 margin-bot-2">
+			<% if @user == @logged_in_user and @user.admin == false%>
+			<div class="panel-group">
+				<div class="panel panel-default">
+		    	<div class="panel-heading">
+				<div id = "friend_request_list" style="max-height:140px;overflow:auto">
+					<%= render  "friendships/friend_requests"%>
+				</div> 
+				</div>
+				</div>
+				<br>
+				<div class="panel panel-default">
+		    	<div class="panel-heading">
+				
+				<div id = "friend_list" style="max-height:140px;overflow:auto">
+		
+					<%= render  "friendships/friends"%>
+				</div> 
+				</div>
+				</div>
+				<br>
+				<div class="panel panel-default">
+		    	<div class="panel-heading">
+				<div id = "friend_block_list" style="max-height:140px;overflow:auto;">
+		      
+					<%= render  "friendships/blocks"%>
+				</div> 
+				</div>
+				</div>
+			</div>
+			<%end%>
+		</div>
+	</div>
+</div>

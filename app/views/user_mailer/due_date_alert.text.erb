@@ -1,0 +1,4 @@
+<%= @alert_to.fname %>
+
+The following item <%= @item.name%> is due. If this item has already been returned, please close the transaction by leaving a review. If not, click the link below to record an action.
+<%= link_to "Go to BoLend", user_items_url(user_id: @alert_to.id, auth: "login_required") %> 

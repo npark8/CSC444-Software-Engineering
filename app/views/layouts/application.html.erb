@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Cup of Sugar</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <!-- enable mobile view-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' , 'data-turbolinks-track': 'reload' %>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  </head>
+<style>
+	html {
+	    position: relative;
+	    min-height: 100%;
+	}
+	footer {
+	    position: absolute;
+	    left: 0;
+	    bottom: 0;
+	    height: 4em;
+	    width: 100%;
+		background-color:#f7f8fa;
+		border-top: 1px solid rgba(0,0,0,0.25);
+	}
+
+	body{
+		padding-top: 70px;
+		margin: 0 0 4em; /* bottom has to be the same as footer height */
+		background-color: #f7f8fa;
+	}
+
+
+</style>
+
+  <body>
+	 <%if not session[:user_id].nil?%>
+	<nav class="navbar navbar-fixed-top" style="border-radius:0px;margin:0px;background-color:white;border-bottom: 1px solid rgba(0,0,0,0.25);">
+		<div class="container" style="margin-top:0.5em;" >
+
+			<div class="row">
+				<div class="col-xs-4" style="margin-top:0.5em">
+					<ul class="list-inline text-center" style="font-weight:bold">
+						<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to 'Home', root_path%></li>
+				  	 	<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fa fa-home" aria-hidden="true"></i>'.html_safe, root_path,title:"Home"%></li>
+
+						<% if session[:user_id].nil?%>
+							<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to "Login", login_path %></li>
+							<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-sign-in-alt"></i>'.html_safe, login_path, title:"Login" %></li>
+							<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to "Signup", new_user_path %></li>
+							<li class="list-inline-item hidden-lg"> <%= link_to '<i class="far fa-registered"></i>'.html_safe, new_user_path,title:"Signup" %></li>
+						<% else %>
+							<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to 'My Profile', user_path(session[:user_id]) %> </li>
+							<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-user-circle"></i>'.html_safe, user_path(session[:user_id]),title:"My Profile" %> </li>
+            				<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to 'Item Search', items_path %></li>
+							<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-search"></i>'.html_safe, items_path,title:"Item Search" %></li>
+
+				  	  		<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to "Logout", logout_path %> </li>
+							<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-sign-out-alt"></i>'.html_safe, logout_path,title:"Logout" %> </li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="col-xs-4 " >
+
+                	<%= image_tag("logo.png", style: "margin-left:40%", alt:"A Cup of Sugar") %>
+
+				</div>
+
+				<div class="col-xs-4" style="margin-top:0.5em">
+					<div class="text-center">
+						<%= form_tag(users_path, method: :get,id:"search-bar") do %>
+	    					<%= text_field_tag :name, params[:name], placeholder: "Search user name", class: 'search-input',id:"search-input" %>
+							<span class="search-icon" style="margin-right:1.5em">
+	    						<%= button_tag 'Search ', name: nil, class:'Icon Icon--medium', style:"border:0;padding:0;" do%>
+									<i class="fa fa-search"></i>
+								<%end%>
+							</span>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<footer>
+		<div class="container-fluid">
+		<div class="row text-center margin-top-1 font-18 hidden-xs hidden-sm">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-2">
+				<div> <%= link_to 'About', page_path('about') %> </div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+			<div><%= link_to 'Terms of Services', page_path('tos') %></div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+				© 2018 A Cup of Sugar
+			</div>
+			<div class="col-sm-2 col-xs-12">
+			<div><%= link_to 'Privacy Policy', page_path('privacy') %> </div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+			<div><%= link_to 'FAQ', page_path('faq') %> </div>
+			</div>
+			<div class="col-sm-1 col-xs-12"></div>
+		</div>
+		<div class="row text-center font-18 hidden-lg hidden-md">
+			<div class="col-xs-6 margin-top-2 ">© 2018 A Cup of Sugar</div>
+			<div class="col-xs-6 margin-top-1">
+				<div> <%= link_to 'About', page_path('about') %> </div>
+				<div><%= link_to 'Terms of Services', page_path('tos') %></div>
+				<div><%= link_to 'Privacy Policy', page_path('privacy') %> </div>
+				<div><%= link_to 'FAQ', page_path('faq') %> </div>
+			</div>
+		</div>
+		</div>
+	</footer>
+	<% end%>
+    <%= yield %>
+
+  </body>
+</html>

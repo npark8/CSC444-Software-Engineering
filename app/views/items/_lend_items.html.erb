@@ -1,0 +1,98 @@
+<div class="panel panel-default">
+      <div class="panel-heading">
+          <a data-toggle="collapse" href="#item_lend"><h4 class="text-uppercase">lent out items<h4></a>
+      </div>
+      <div id="item_lend" class="panel-collapse collapse in">
+      <div class="panel-body">
+		  <% if @lend_items.length > 0 %>
+        <div class="table-responsive">
+          <% if @pending_items.length > 0 %>
+            <h3>Pending Requests</h3>
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Item name</th>
+                <th>Description</th>
+                <th>Requested By</th>
+                <th>Requested on</th>
+                <th>Requested Return Date</th>
+                <th colspan="2">Approval</th>
+              </tr>
+             </thead>
+             <tbody>
+              <% @pending_items.each do |item| %>
+                <tr>
+                  <td><%= link_to item.name, item_path(item),class: "btn-link" %></td>
+                  <td><%= item.descr %></td>
+                  <td><%= User.find_by_id(item.user_id).fname %></td>
+                  <td><%= item.req_on.strftime("%Y-%m-%d") %></td>
+                  <td><%= item.due_date.strftime("%Y-%m-%d")%></td>
+                  <td>
+                    <div style="margin-left:2em"> 
+                      <%= button_to 'Approve Request', user_on_hold_item_update_request_status_path(:on_hold_item_id => item.id, :result => "approved"), method: :put, class: "cta-alt cta-background",form:{style:"display:inline-block;margin-right:1em"} %>
+                      <%= button_to 'Deny Request', user_on_hold_item_update_request_status_path(:on_hold_item_id => item.id, :result => "denied"), method: :put, class: "cta-alt cta-background",form:{style:"display:inline-block;margin-right:1em"} %>
+                    </div>
+                  <td>
+                </tr>
+            <% end %>
+            </tbody>
+            </table>
+          <% end %>
+          <% if @approved_items.length > 0 %>
+          <h3>Approved Requests/ On Loan</h3>
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Item name</th>
+              <th>Description</th>
+              <th>Requested By</th>
+              <th>Requested on</th>
+              <th>Requested Return Date</th>
+              <th>Approved Return Date</th>
+              <th colspan="2">Due extension/Ation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @approved_items.each do |item| %>
+            <tr>
+              <td><%= link_to item.name, item_path(item),class: "btn-link" %></td>
+              <td><%= item.descr %></td>
+              <td><%= User.find_by_id(item.user_id).fname %></td>
+              <td><%= item.req_on.strftime("%Y-%m-%d") %></td>
+              <td><%= item.due_date.strftime("%Y-%m-%d")%></td>
+                <% borrowed_item = BorrowedItem.find_by_item_id(item.item_id)%>
+                <% if borrowed_item == nil %>
+                  <td>
+                    <!-- add confirm return button here -->
+                       <%= link_to 'Confirm Pickup', new_user_borrowed_item_path(:user_id => item.user_id,:on_hold_item_id => item.id) , class: "cta cta-background" %>
+                  </td>
+                <% else %>
+                   <td>
+                    <%= borrowed_item.due_date.strftime("%Y-%m-%d") %>
+                  </td>
+                  <% if borrowed_item.returned_on != nil%>
+                    <td><%= link_to 'Confirm return', new_user_review_borrower_path(:user_id => @user.id,:item_id => item.item_id, :borrower_id => borrowed_item.user_id) , class: "cta-alt cta-background" %></td>
+                   <%elsif borrowed_item.approved == "pending" %>
+                     <td>
+                       <%= borrowed_item.temp_due_date.strftime("%Y-%m-%d") %>
+                     </td>
+                      <td>
+                    <%= button_to 'Approve extension', user_borrowed_item_update_ext_status_path(:borrowed_item_id => item.id, :result => "approved"), method: :put , class: "cta-alt cta-background"%>
+                    <%= button_to 'Deny extension', user_borrowed_item_update_ext_status_path(:borrowed_item_id => item.id, :result => "denied"), method: :put , class: "cta-alt cta-background" %>
+                    <td>
+                   <%else %>
+                    <td colspan="2"><%=borrowed_item.approved%></td>
+                   <% end %>
+                <% end %>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+        <% end %>
+        </div>
+        <% else %>
+          <p>There are no items that require your attention</p>
+        <% end %>
+      </div>
+  </div>
+</div>

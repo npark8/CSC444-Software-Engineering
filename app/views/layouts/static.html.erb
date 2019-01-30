@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A Cup of Sugar</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  </head>
+<style>
+	html {
+	    position: relative;
+	    min-height: 100%;
+	}
+	footer {
+	    position: absolute;
+	    left: 0;
+	    bottom: 0;
+	    height: 10em;
+	    width: 100%;
+		border-top: 1px solid rgba(0,0,0,0.25);
+		background-color:white;
+	}
+	
+	body{
+		padding-top: 70px;
+		margin: 0 0 10em; /* bottom has to be the same as footer height */
+		background-color: #f7f8fa;
+	}
+</style>
+
+  <body>
+ 	<nav class="navbar navbar-fixed-top" style="border-radius:0px;margin:0px;border-bottom: 1px solid rgba(0,0,0,0.25);background-color:white">
+ 	  <div class="container-fluid margin-top-1">
+		  <div class="row">
+			  <div class="col-xs-12">
+		  <ul class="list-inline text-center">
+			<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to 'Home', root_path%></li>
+			<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fa fa-home" aria-hidden="true"></i>'.html_safe, root_path,title:"Home"%></li>
+		<% if session[:user_id].nil?%>
+  			<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to "Login", login_path %></li>
+			<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-sign-in-alt"></i>'.html_safe, login_path, title:"Login" %></li>
+			<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to "Signup", new_user_path %></li>
+			<li class="list-inline-item hidden-lg"> <%= link_to '<i class="far fa-registered"></i>'.html_safe, new_user_path,title:"Signup" %></li>
+		<% end %>
+		<% if not session[:user_id].nil?%>
+			<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to 'My Profile', user_path(session[:user_id]) %> </li>
+			<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-user-circle"></i>'.html_safe, user_path(session[:user_id]),title:"My Profile" %> </li>
+  	  		<li class="list-inline-item hidden-xs hidden-sm hidden-md"> <%= link_to "Logout", logout_path %> </li>
+			<li class="list-inline-item hidden-lg"> <%= link_to '<i class="fas fa-sign-out-alt"></i>'.html_safe, logout_path,title:"Logout" %> </li>
+		<% end %>
+	</div>
+		</div>
+	</ul>
+ 	  </div>
+ 	</nav>
+	<footer>
+		<div class="container-fluid">
+		<div class="row text-center margin-top-3 font-18 hidden-xs hidden-sm">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-2">
+				<div> <%= link_to 'About', page_path('about') %> </div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+			<div><%= link_to 'Terms of Services', page_path('tos') %></div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+				© 2018 A Cup of Sugar
+			</div>
+			<div class="col-sm-2 col-xs-12">
+			<div><%= link_to 'Privacy Policy', page_path('privacy') %> </div>
+			</div>
+			<div class="col-sm-2 col-xs-12">
+			<div><%= link_to 'FAQ', page_path('faq') %> </div>
+			</div>
+			<div class="col-sm-1 col-xs-12"></div>
+		</div>
+		<div class="row text-center font-18 hidden-lg hidden-md">
+			<div class="col-xs-6 margin-top-2 ">© 2018 A Cup of Sugar</div>
+			<div class="col-xs-6 margin-top-1">
+				<div> <%= link_to 'About', page_path('about') %> </div>
+				<div><%= link_to 'Terms of Services', page_path('tos') %></div>
+				<div><%= link_to 'Privacy Policy', page_path('privacy') %> </div>
+				<div><%= link_to 'FAQ', page_path('faq') %> </div>
+			</div>
+		</div>
+		</div>
+	</footer>
+    <%= yield %>
+  </body>
+</html>

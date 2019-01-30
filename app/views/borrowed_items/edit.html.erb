@@ -1,0 +1,14 @@
+<div class="container">
+	<h1>Update due date</h1>
+
+	<div id="item_profile">
+		<% lender = User.find(@item.user_id)%>
+		<p>Lender: <%= lender.fname %> <%= lender.lname %></p>
+		<p>Item: <%= @item.name %></p>
+		<%= render partial: 'items/item_profile' %>
+	</div>
+
+	<%= render 'due_date_form' %>
+
+	<%= link_to '< To manage items', user_items_path(@user), class: "cta-alt"%>
+</div>

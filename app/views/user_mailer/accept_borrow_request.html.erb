@@ -1,0 +1,4 @@
+<%= @borrower.fname %>
+
+<p>Your borrow request for the item <%= @item.name%> has been <%= @status %>. Click the link below to view this transaction.<p>
+<%= link_to "Go to BoLend", user_items_url(user_id: @borrower.id, auth: "login_required") %> 

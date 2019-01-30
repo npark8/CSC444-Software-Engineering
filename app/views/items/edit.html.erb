@@ -1,0 +1,12 @@
+<div class="container">
+<h1>Edit Item</h1>
+<% if flash[:failure_msg]%>
+  <div class="alert alert-danger">
+    <% @item.errors.each do |attr,error| %>
+      <p class="text-center"><%= error %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render "item_form"%>
+</div>

@@ -1,0 +1,30 @@
+<div>
+	<div style="font-size:21px" class="margin-bot-1"> <i class="fas fa-user-slash"></i> Block List <%="(#{@blockee_users.length})"if @blockee_users.length>0%></p>
+</div>
+<% if  @blockee_users.empty?%>
+	<div>The list is empty! Good for you!</div>
+<% end %>
+
+<% for user in @blockee_users%>
+	<div >
+		<!--desktop view -->
+		<%= link_to "#{user.fname.capitalize} #{user.lname.capitalize}", user_path(user) %>
+		<%= form_tag user_friendship_path(@user,id:1), method: :delete,style:'display:inline-block;',data: { confirm: "Are you sure to unblock #{user.fname} #{user.lname}?" },class:"hidden-xs hidden-sm hidden-md",remote: true, authenticity_token: true do %>
+		  <%= hidden_field_tag :friend_remover, @user.id%>
+		  <%= hidden_field_tag :blockee_id, user.id %>
+		  <%= hidden_field_tag :friend_removee, user.id %>
+		  <%= hidden_field_tag :decision, "unblock" %>
+		  <%= button_tag 'Unblock'.html_safe,class:"cta" %>
+		<% end %>
+		<!--mobile view -->
+		<%= form_tag user_friendship_path(@user,id:1), method: :delete,style:'display:inline-block;',data: { confirm: "Are you sure to unblock #{user.fname} #{user.lname}?" },class:"hidden-lg",remote: true, authenticity_token: true do %>
+		  <%= hidden_field_tag :friend_remover, @user.id%>
+		  <%= hidden_field_tag :blockee_id, user.id %>
+		  <%= hidden_field_tag :friend_removee, user.id %>
+		  <%= hidden_field_tag :decision, "unblock" %>
+		  <%= button_tag '<i class="fas fa-unlock-alt"></i>'.html_safe,class:'cta',title:'Unblock' %>
+		<% end %>
+	</div>
+	<hr style="border-top: 1px solid #7A7E81;">
+<%end%>
+<br/>

@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+      <div class="panel-heading">
+          <a data-toggle="collapse" href="#item_on_hold"><h4 class="text-uppercase">On-hold items<h4></a>
+      </div>
+      <div id="item_on_hold" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <div class="table-responsive">
+        <% if @on_hold_items.length > 0 %>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Item name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Requested on</th>
+            <th>Proposed due date</th>
+            <th>Approval status</th>
+            <th>Manage</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @on_hold_items.each do |item| %>
+            <%# bi = BorrowedItem.find_by_item_id(item.item_id)%>
+            <%#if bi && bi.approved != "Approved"%>
+            <tr>
+              <td><%= link_to item.name, item_path(item.item_id)%></td>
+              <td><%= item.descr %></td>
+              <td><%= item.status %></td>
+              <td><%= item.req_on.strftime("%Y-%m-%d") %></td>
+              <td><%= item.due_date.strftime("%Y-%m-%d") %></td>
+              <td><%= item.approved%></td>
+              <td>
+                <%if item.approved != "Approved"%>
+                <%= button_to 'Cancel request', user_on_hold_item_path(item.user_id, item.item_id), method: :delete,
+                      data: { confirm: 'Are you sure?' } , class: "cta-alt cta-background"%>         
+                <%end%>        
+              </td>  <!-- item will be deleted from the list -->
+            </tr>
+            <%#end%>
+          <% end %>
+          </tbody>
+        </table>
+        <%else%>
+          <p>You don't have any on-hold requests</p>
+        <%end%>
+        </div>
+      </div>
+    </div>
+  </div>

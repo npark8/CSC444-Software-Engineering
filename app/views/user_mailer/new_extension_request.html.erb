@@ -1,0 +1,4 @@
+<%= @lender.fname %>
+
+<p>You have a due date extension request for the item <%= @item.name%> from <%=@borrower.fname %>. Click the link below to manage this request.<p>
+<%= link_to "Go to BoLend", user_items_url(user_id: @lender.id, auth: "login_required") %> 
