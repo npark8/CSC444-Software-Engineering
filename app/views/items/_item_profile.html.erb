@@ -17,7 +17,7 @@
 		<%if @item.address != nil && @item.latitude != nil && @item.longitude !=nil %>
 			<p>Preferred location of transaction: <%= @item.address %></p>
 				<%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{@item.latitude},#{@item.longitude}&markers=#{@item.latitude},#{@item.longitude}&zoom=15&size=640x400&key=AIzaSyAAubHLK_WZJZTurysR-3VNPcEJbUdDA24",
-              class: 'img-fluid img-rounded', alt: "#{@item.name} on the map"%>
+              class: 'img-fluid img-rounded img-responsive', alt: "#{@item.name} on the map"%>
 		<% end %>
 
 </div>
