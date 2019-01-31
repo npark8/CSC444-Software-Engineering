@@ -34,4 +34,4 @@ app/.DS_Store
 .DS_Store
 
 # Ignore google service secret keys
-/config/secrets/*
+# /config/secrets/*
